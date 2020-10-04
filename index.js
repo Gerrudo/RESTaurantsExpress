@@ -18,7 +18,7 @@ io.on('connection', function(socket){
       'method': 'GET',
       'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyAwEXGNngeeCg5Ak1R8wMT5UET2LDXTGmw&location=53.474184, -2.244984&radius=100&rankby=prominence&keyword =food&opennow ',
       'headers': {
-        'AIzaSyDGW5mh37ZNSQ0rv0aTZyjwazIJon7elMA': ''
+        '': ''
       }
     };
     request(options, function (error, response) {
