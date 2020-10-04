@@ -28,7 +28,8 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
-        <h1 class="mt-5">RESTaurants Place finder</h1>
+        <h2 class="mt-5">Can't think pick where to eat? Don't worry, we'll do it for you.</h2>
+        <br>
         <p class="lead">Enter your cordinates, for example: 53.474184, -2.244984</p>
         <ul id="usercoordinates" class="list-unstyled"></ul>
         <ul id="placename" class="list-unstyled"></ul>
@@ -43,17 +44,6 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
-    //load in node libraries
-    //require('./renderer.js')
-    
-    const $events = document.getElementById('events');
-
-        const newItem = (content) => {
-          const item = document.createElement('li');
-          item.innerText = content;
-          return item;
-        };
-
     $(function () {
         var socket = io();
         $('form').submit(function(){
@@ -62,12 +52,10 @@
           return false;
         });
 
-        socket.on('request', function(coordinates, randomplace){
+        socket.on('request', function(coordinates){
           $('#usercoordinates').append($('<li>').text(coordinates));
-          //$('#placename').append($('<li>').text(randomplace));
           window.scrollTo(0, document.body.scrollHeight);
         });
-
       });
   </script>
 </body>

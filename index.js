@@ -9,16 +9,17 @@ webApp.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  socket.on('request', function(coordinates, randomplace){
+  socket.on('request', function(coordinates){
 
     //apiKey should be broken out into another file called requestVarFile.js
-    const apiKey = require('./requestVarFile.js')
-    
+    const apiKey0 = require('./requestVarFile.js')
+    const apiKey1 = require('./requestVarFile.js')
+
     var options = {
       'method': 'GET',
-      'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyB7Nn16LpCaK-UTAVqSd16-beitmXF8f-I&location=' + coordinates + '&radius=100&rankby=prominence&keyword =food&opennow ',
+      'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + coordinates + '&rankby=distance&keyword =food&type=restaurant',
       'headers': {
-        apiKey : ''
+        apiKey1 : ''
       }
     };
 
@@ -26,12 +27,18 @@ io.on('connection', function(socket){
       if (error) throw new Error(error);
 
       var placesobj = JSON.parse(response.body)
-
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
 
-      io.emit('request', coordinates);
-      io.emit('request', randomplace.name);
+      io.emit('request', 'Your coordinates are: ' + coordinates);
+      io.emit('request', 'Your place is: ' + randomplace.name);
+      if (randomplace.opening_hours.open_now == true){
+        io.emit('request', 'Open now?: Yes')
+      }else  {
+        io.emit('request', 'Open now?: No')
+      };
+
     });
+
   });
 });
 
