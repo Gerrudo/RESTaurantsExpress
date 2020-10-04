@@ -9,26 +9,29 @@ webApp.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-    
-    console.log(msg);
+  socket.on('request', function(coordinates, randomplace){
 
+    //apiKey should be broken out into another file called requestVarFile.js
+    const apiKey = require('./requestVarFile.js')
+    
     var options = {
       'method': 'GET',
-      'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyAwEXGNngeeCg5Ak1R8wMT5UET2LDXTGmw&location=53.474184, -2.244984&radius=100&rankby=prominence&keyword =food&opennow ',
+      'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyB7Nn16LpCaK-UTAVqSd16-beitmXF8f-I&location=' + coordinates + '&radius=100&rankby=prominence&keyword =food&opennow ',
       'headers': {
-        '': ''
+        apiKey : ''
       }
     };
+
     request(options, function (error, response) {
       if (error) throw new Error(error);
-      console.log(response.body);
 
-      io.emit('chat message', response.body);
+      var placesobj = JSON.parse(response.body)
+
+      var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
+
+      io.emit('request', coordinates);
+      io.emit('request', randomplace.name);
     });
-    
-
   });
 });
 
