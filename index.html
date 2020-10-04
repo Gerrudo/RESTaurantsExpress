@@ -45,6 +45,14 @@
     //load in node libraries
     //require('./renderer.js')
     
+    const $events = document.getElementById('events');
+
+        const newItem = (content) => {
+          const item = document.createElement('li');
+          item.innerText = content;
+          return item;
+        };
+
     $(function () {
         var socket = io();
         $('form').submit(function(){
@@ -52,11 +60,13 @@
           $('#m').val('');
           return false;
         });
+
         socket.on('chat message', function(msg){
           console.log('message: ' + msg);
           $('#messages').append($('<li>').text(msg));
           window.scrollTo(0, document.body.scrollHeight);
         });
+
       });
   </script>
 </body>
