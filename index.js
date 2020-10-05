@@ -8,8 +8,11 @@ webApp.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
+//socket for google api to client
 io.on('connection', function(socket){
-  socket.on('request', function(coordinates){
+
+  socket.on('usercoords', userCoords => {
+    console.log('usercoords', userCoords);
 
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
@@ -17,7 +20,7 @@ io.on('connection', function(socket){
 
     var options = {
       'method': 'GET',
-      'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + coordinates + '&rankby=distance&keyword =food&type=restaurant',
+      'url': 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + userCoords + '&rankby=distance&keyword =food&type=restaurant',
       'headers': {
         apiKey1 : ''
       }
@@ -29,16 +32,15 @@ io.on('connection', function(socket){
       var placesobj = JSON.parse(response.body)
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
 
-      io.emit('request', 'Your coordinates are: ' + coordinates);
+      io.emit('request', 'Your coordinates are: ' + userCoords);
       io.emit('request', 'Your place is: ' + randomplace.name);
+
       if (randomplace.opening_hours.open_now == true){
         io.emit('request', 'Open now?: Yes')
       }else  {
         io.emit('request', 'Open now?: No')
       };
-
     });
-
   });
 });
 

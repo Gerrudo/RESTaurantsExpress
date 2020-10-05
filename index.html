@@ -30,12 +30,11 @@
       <div class="col-lg-12 text-center">
         <h2 class="mt-5">Can't think pick where to eat? Don't worry, we'll do it for you.</h2>
         <br>
-        <p class="lead">Enter your cordinates, for example: 53.474184, -2.244984</p>
+        <h5 class="lead">Please note, RESTaurants will ask for your location to search for results.</h5>
+        <button onclick="getLocation()">Go</button>
+        <br>
         <ul id="usercoordinates" class="list-unstyled"></ul>
         <ul id="placename" class="list-unstyled"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
       </div>
     </div>
   </div>
@@ -44,10 +43,11 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script>
-    $(function () {
+    $(function find() {
         var socket = io();
         $('form').submit(function(){
           socket.emit('request', $('#m').val());
+
           $('#m').val('');
           return false;
         });
@@ -57,6 +57,21 @@
           window.scrollTo(0, document.body.scrollHeight);
         });
       });
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        console.error('Geolocation not supported by browser');
+      }
+    }
+
+    function showPosition(position) {
+      var socket = io();
+      var userCoords = position.coords.latitude + ', ' + position.coords.longitude
+      console.log('User Coordinates are: ' + userCoords)
+      socket.emit('usercoords', userCoords);
+    }
   </script>
 </body>
 
