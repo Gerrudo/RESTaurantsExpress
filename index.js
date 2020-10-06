@@ -1,11 +1,14 @@
-var webApp = require('express')();
-var http = require('http').Server(webApp);
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var request = require('request');
 var port = process.env.PORT || 80;
 
-webApp.get('/', function(req, res){
+
+app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
+  app.use("/js", express.static(__dirname + "/js"));
 });
 
 //socket for google api to client
@@ -17,6 +20,7 @@ io.on('connection', function(socket){
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
     const apiKey1 = require('./requestVarFile.js')
+    var placesobj
 
     var options = {
       'method': 'GET',
@@ -26,10 +30,19 @@ io.on('connection', function(socket){
       }
     };
 
-    request(options, function (error, response) {
-      if (error) throw new Error(error);
+    function placesRequest(options){
+      return new Promise (function (resolve) {
+        request(options, function (error, response) {
+          resolve('resolved');
+          if (error) throw new Error(error);
+          var placesobj = JSON.parse(response.body);
+          return placesobj
+        });
+      })
+    }
+    async function postResults() {
 
-      var placesobj = JSON.parse(response.body)
+      const result = await placesRequest();
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
 
       io.emit('request', 'Your coordinates are: ' + userCoords);
@@ -40,7 +53,8 @@ io.on('connection', function(socket){
       }else  {
         io.emit('request', 'Open now?: No')
       };
-    });
+    }
+    postResults(placesobj);
   });
 });
 
