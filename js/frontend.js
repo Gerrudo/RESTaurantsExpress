@@ -13,6 +13,6 @@ function getLocation() {
 }
 
 function showPosition(position) {
-  var userCoords = position.coords.latitude + ', ' + position.coords.longitudeconsole.log('User Coordinates are: ' + userCoords)
+  var userCoords = position.coords.latitude + ', ' + position.coords.longitude
   socket.emit('usercoords', userCoords);
 }

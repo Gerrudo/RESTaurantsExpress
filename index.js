@@ -51,7 +51,6 @@ io.on('connection', function(socket){
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
       console.log('Sending: ' + randomplace.name);
 
-      io.to(socket.id).emit('request', 'Your coordinates are: ' + userCoords);
       io.to(socket.id).emit('request', 'Your place is: ' + randomplace.name);
       console.log('Sent to: ' + socket.id);
       if (randomplace.opening_hours.open_now == true){
