@@ -13,7 +13,6 @@ app.get('/', function(req, res){
 
 //socket for google api to client
 io.on('connection', function(socket){
-  socket.join(socket.id);
   console.log(`Socket ${socket.id} connected.`);
   
   socket.on('disconnect', () => {
@@ -21,12 +20,13 @@ io.on('connection', function(socket){
   });
 
   socket.on('usercoords', userCoords => {
-    console.log('usercoords', userCoords);
+    socket.join(socket.id);
+    console.log('Requested by: ' + socket.id);
+    //console.log('usercoords', userCoords);
 
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
     const apiKey1 = require('./requestVarFile.js')
-    //var placesobj
 
     var options = {
       'method': 'GET',
@@ -42,7 +42,6 @@ io.on('connection', function(socket){
           if (error) throw new Error(error);
           var placesobj = JSON.parse(response.body);
           resolve(placesobj);
-          //return placesobj
         });
       })
     }
@@ -54,7 +53,7 @@ io.on('connection', function(socket){
 
       io.to(socket.id).emit('request', 'Your coordinates are: ' + userCoords);
       io.to(socket.id).emit('request', 'Your place is: ' + randomplace.name);
-
+      console.log('Sent to: ' + socket.id);
       if (randomplace.opening_hours.open_now == true){
         io.to(socket.id).emit('request', 'Open now?: Yes')
       }else  {
