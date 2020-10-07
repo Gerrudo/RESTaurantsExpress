@@ -22,7 +22,6 @@ io.on('connection', function(socket){
   socket.on('usercoords', userCoords => {
     socket.join(socket.id);
     console.log('Requested by: ' + socket.id);
-    //console.log('usercoords', userCoords);
 
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
