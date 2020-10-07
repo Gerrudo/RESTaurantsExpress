@@ -13,6 +13,12 @@ app.get('/', function(req, res){
 
 //socket for google api to client
 io.on('connection', function(socket){
+  socket.join(socket.id);
+  console.log(`Socket ${socket.id} connected.`);
+  
+  socket.on('disconnect', () => {
+    console.log(`Socket ${socket.id} disconnected.`);
+  });
 
   socket.on('usercoords', userCoords => {
     console.log('usercoords', userCoords);
@@ -46,19 +52,18 @@ io.on('connection', function(socket){
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
       console.log('Sending: ' + randomplace.name);
 
-      io.emit('request', 'Your coordinates are: ' + userCoords);
-      io.emit('request', 'Your place is: ' + randomplace.name);
+      io.to(socket.id).emit('request', 'Your coordinates are: ' + userCoords);
+      io.to(socket.id).emit('request', 'Your place is: ' + randomplace.name);
 
       if (randomplace.opening_hours.open_now == true){
-        io.emit('request', 'Open now?: Yes')
+        io.to(socket.id).emit('request', 'Open now?: Yes')
       }else  {
-        io.emit('request', 'Open now?: No')
+        io.to(socket.id).emit('request', 'Open now?: No')
       };
     }
     postResults();
   });
 });
-
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });

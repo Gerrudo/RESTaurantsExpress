@@ -1,3 +1,17 @@
+const socketUrl = 'http://localhost';
+
+  socket = io(socketUrl, {
+    autoConnect: true,
+  });
+
+  socket.on('connect', () => {
+    console.log('Connected');
+  });
+
+  socket.on('disconnect', (reason) => {
+    console.log(`Disconnected: ${reason}`);
+  })
+
 $(function find() {
     var socket = io();
     $('form').submit(function(){
@@ -8,6 +22,7 @@ $(function find() {
     });
 
     socket.on('request', function(coordinates){
+      console.log(coordinates);
       $('#usercoordinates').append($('<li>').text(coordinates));
       window.scrollTo(0, document.body.scrollHeight);
     });
