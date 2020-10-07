@@ -20,7 +20,7 @@ io.on('connection', function(socket){
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
     const apiKey1 = require('./requestVarFile.js')
-    var placesobj
+    //var placesobj
 
     var options = {
       'method': 'GET',
@@ -33,17 +33,18 @@ io.on('connection', function(socket){
     function placesRequest(options){
       return new Promise (function (resolve) {
         request(options, function (error, response) {
-          resolve('resolved');
           if (error) throw new Error(error);
           var placesobj = JSON.parse(response.body);
-          return placesobj
+          resolve(placesobj);
+          //return placesobj
         });
       })
     }
     async function postResults() {
 
-      const result = await placesRequest();
+      let placesobj = await placesRequest(options);
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
+      console.log('Sending: ' + randomplace.name);
 
       io.emit('request', 'Your coordinates are: ' + userCoords);
       io.emit('request', 'Your place is: ' + randomplace.name);
@@ -54,10 +55,11 @@ io.on('connection', function(socket){
         io.emit('request', 'Open now?: No')
       };
     }
-    postResults(placesobj);
+    postResults();
   });
 });
 
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });
+
