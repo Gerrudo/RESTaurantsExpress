@@ -3,7 +3,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var request = require('request');
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 8080;
 
 
 app.get('/', function(req, res){
@@ -22,7 +22,6 @@ io.on('connection', function(socket){
   socket.on('usercoords', userCoords => {
     socket.join(socket.id);
     console.log('Requested by: ' + socket.id);
-    //console.log('usercoords', userCoords);
 
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
@@ -51,7 +50,6 @@ io.on('connection', function(socket){
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
       console.log('Sending: ' + randomplace.name);
 
-      io.to(socket.id).emit('request', 'Your coordinates are: ' + userCoords);
       io.to(socket.id).emit('request', 'Your place is: ' + randomplace.name);
       console.log('Sent to: ' + socket.id);
       if (randomplace.opening_hours.open_now == true){
