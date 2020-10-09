@@ -1,8 +1,17 @@
-var socket = io();
+$(function find() {
+    var socket = io();
+    $('form').submit(function(){
+      socket.emit('request', $('#m').val());
 
-socket.on('request', function(coordinates){
-  $('#usercoordinates').append($('<li>').text(coordinates));
-});
+      $('#m').val('');
+      return false;
+    });
+
+    socket.on('request', function(coordinates){
+      $('#usercoordinates').append($('<li>').text(coordinates));
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  });
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -13,6 +22,8 @@ function getLocation() {
 }
 
 function showPosition(position) {
+  var socket = io();
   var userCoords = position.coords.latitude + ', ' + position.coords.longitude
+  console.log('User Coordinates are: ' + userCoords)
   socket.emit('usercoords', userCoords);
 }
