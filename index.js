@@ -64,13 +64,15 @@ io.on('connection', function(socket){
       var randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
       console.log('Sending: ' + randomplace.name);
 
-      io.to(socket.id).emit('request', 'Your place is: ' + randomplace.name);
+      io.to(socket.id).emit('placedetails', 'Your place is: ' + randomplace.name);
       console.log('Sent to: ' + socket.id);
       if (randomplace.opening_hours.open_now == true){
-        io.to(socket.id).emit('request', 'Open now?: Yes')
+        io.to(socket.id).emit('placedetails', 'Open now?: Yes')
       }else  {
-        io.to(socket.id).emit('request', 'Open now?: No')
+        io.to(socket.id).emit('placedetails', 'Open now?: No')
       };
+      var placeimage = randomplace.photos[0].html_attributions[0];
+      io.to(socket.id).emit('placeimages', placeimage);
     }
     postResults();
   });
