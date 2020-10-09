@@ -1,10 +1,24 @@
+var fs = require('fs');
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var https = require('https')
 var request = require('request');
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 443;
 
+var key = fs.readFileSync(__dirname + '/certs/selfsigned.key');
+var cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt');
+var options = {
+  key: key,
+  cert: cert
+};
+
+var server = https.createServer(options, app);
+
+var io = require('socket.io').listen(server);
+
+server.listen(port, function(){
+  console.log('listening on *:' + port);
+});
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
@@ -61,7 +75,3 @@ io.on('connection', function(socket){
     postResults();
   });
 });
-http.listen(port, function(){
-  console.log('listening on *:' + port);
-});
-

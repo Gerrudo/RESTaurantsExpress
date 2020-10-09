@@ -1,4 +1,4 @@
-var socket = io();
+var socket = io(':443',{secure: true});
 
 socket.on('request', function(coordinates){
   $('#usercoordinates').append($('<li>').text(coordinates));
