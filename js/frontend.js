@@ -5,7 +5,11 @@ socket.on('placedetails', function(info){
 });
 
 socket.on('placeimages', function(info){
-  $('#placeimage').attr("src", "data:image/png;base64,"+info);
+  let encodedString = "data:image/png;base64,"+info;
+  console.log(encodedString);
+  var image = new Image();
+  image.src = encodedString;
+  $('#placeimage').append(encodedString);  
 });
 
 function getLocation() {
