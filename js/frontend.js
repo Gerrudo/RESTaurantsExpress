@@ -5,7 +5,7 @@ socket.on('placedetails', function(info){
 });
 
 socket.on('placeimages', function(info){
-  $('#placeimage').html(info);
+  $('#placeimage').attr("src", "data:image/png;base64,"+info);
 });
 
 function getLocation() {
