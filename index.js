@@ -3,7 +3,6 @@ const express = require('express');
 const app = express();
 const https = require('https')
 const request = require('request');
-const { response } = require('express');
 const port = process.env.PORT || 443;
 const key = fs.readFileSync(__dirname + '/certs/selfsigned.key');
 const cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt');
@@ -58,16 +57,16 @@ io.on('connection', function(socket){
       let placesobj = JSON.parse(placesjson);
       let randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
       let placePhotoRef = randomplace.photos[0].photo_reference;
+      //People will be able to see API key when sent to frontend, but it is on usable by my IP, will need to address this
       let getPlaceImageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placePhotoRef+'&key='+apiKey0;
-      let placeimageresponse = await reusableRequest(getPlaceImageUrl);
-      
+
       io.to(socket.id).emit('placedetails', 'Your place is: ' + randomplace.name);
       if (randomplace.opening_hours.open_now == true){
-        io.to(socket.id).emit('placedetails', 'Open now?: Yes')
+        io.to(socket.id).emit('placedetails', 'Open now?: Yes');
       }else  {
-        io.to(socket.id).emit('placedetails', 'Open now?: No')
+        io.to(socket.id).emit('placedetails', 'Open now?: No');
       };
-      io.to(socket.id).emit('placeimages', placeimageresponse);
+      io.to(socket.id).emit('placeimages', getPlaceImageUrl);
     }
 
     postResults();

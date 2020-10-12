@@ -1,15 +1,12 @@
 var socket = io(':443',{secure: true});
 
 socket.on('placedetails', function(info){
-  $('#usercoordinates').append($('<li>').text(info));
+  $('#placename').append($('<p>').text(info));
 });
 
 socket.on('placeimages', function(info){
-  let encodedString = "data:image/png;base64,"+info;
-  console.log(encodedString);
-  var image = new Image();
-  image.src = encodedString;
-  $('#placeimage').append(encodedString);  
+  //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
+  $("#placeimage").attr("src",info);
 });
 
 function getLocation() {
