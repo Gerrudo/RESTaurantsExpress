@@ -52,20 +52,28 @@ io.on('connection', function(socket){
     }
 
     async function postResults() {
+      
+      //Search by location
       let getPlaceUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + userCoords + '&rankby=distance&keyword =food&type=restaurant';
       let placesjson = await reusableRequest(getPlaceUrl,apiKey1);
       let placesobj = JSON.parse(placesjson);
+
+      //Choose Random place
       let randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
+
+      //Get placeDetails
+      let getPlaceDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?place_id='+randomplace.place_id+'&key='+apiKey0;
+      let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
+      let placeDetailsObj = JSON.parse(placeDetailsJson);
+
+      //Get ID for Photo Reference(May become deprated in favour of placedetails results)
       let placePhotoRef = randomplace.photos[0].photo_reference;
+
       //People will be able to see API key when sent to frontend, but it is on usable by my IP, will need to address this
       let getPlaceImageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placePhotoRef+'&key='+apiKey0;
 
-      io.to(socket.id).emit('placedetails', 'Your place is: ' + randomplace.name);
-      if (randomplace.opening_hours.open_now == true){
-        io.to(socket.id).emit('placedetails', 'Open now?: Yes');
-      }else  {
-        io.to(socket.id).emit('placedetails', 'Open now?: No');
-      };
+      //Here now emits JS Object, can parse through place info on the otherside.
+      io.to(socket.id).emit('placedetails', placeDetailsObj);
       io.to(socket.id).emit('placeimages', getPlaceImageUrl);
     }
 

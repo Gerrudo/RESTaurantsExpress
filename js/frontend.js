@@ -1,7 +1,8 @@
 var socket = io(':443',{secure: true});
 
 socket.on('placedetails', function(info){
-  $('#placename').append($('<p>').text(info));
+  $('#placename').text("We've chosen "+info.result.name+" for you.");
+  $('#placeaddress').text(info.result.name+" are located at "+info.result.vicinity);
 });
 
 socket.on('placeimages', function(info){
