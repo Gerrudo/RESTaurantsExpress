@@ -11,10 +11,10 @@ Goals/Requirments for this project:
 - [x] Display different pieces of information to the user. For example: Address, Place name, ratings/reviews/images
 - [x] Have each socket have its own session and no crosstalk between sockets
 - [x] Use https and have it working with socket.io
-- [x] Display Image of place
-- [ ] Have the page update with each request and keep information consistently displayed
+- [x] Display Images of place
+- [x] Have the page update with each request and keep information consistently displayed
 - [ ] Display Reviews
-- [ ] Display Address
+- [x] Display Address
 - [ ] Display Google Maps marker for Address
 - [ ] Add loading screen while request is being run
 - [ ] Make the page not look like complete arse
