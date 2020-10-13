@@ -5,9 +5,11 @@ socket.on('placedetails', function(info){
   $('#placeaddress').text(info.result.name+" are located at "+info.result.vicinity);
 });
 
-socket.on('placeimages', function(info){
+socket.on('placeimages', function(placeImageUrls){
   //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
-  $("#placeimage").attr("src",info);
+  $("#placeimage").attr("src",placeImageUrls.image);
+  $("#placeimage1").attr("src",placeImageUrls).image1;
+  $("#placeimage2").attr("src",placeImageUrls.image2);
 });
 
 function getLocation() {

@@ -66,15 +66,16 @@ io.on('connection', function(socket){
       let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
       let placeDetailsObj = JSON.parse(placeDetailsJson);
 
-      //Get ID for Photo Reference(May become deprated in favour of placedetails results)
-      let placePhotoRef = randomplace.photos[0].photo_reference;
-
-      //People will be able to see API key when sent to frontend, but it is on usable by my IP, will need to address this
-      let getPlaceImageUrl = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placePhotoRef+'&key='+apiKey0;
+      //Constructing image URLs into an Object
+      let placeImageUrls = {
+        image: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placeDetailsObj.result.photos[0].photo_reference+'&key='+apiKey0,
+        image1: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placeDetailsObj.result.photos[1].photo_reference+'&key='+apiKey0,
+        image2: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placeDetailsObj.result.photos[2].photo_reference+'&key='+apiKey0
+      };
 
       //Here now emits JS Object, can parse through place info on the otherside.
       io.to(socket.id).emit('placedetails', placeDetailsObj);
-      io.to(socket.id).emit('placeimages', getPlaceImageUrl);
+      io.to(socket.id).emit('placeimages', placeImageUrls);
     }
 
     postResults();
