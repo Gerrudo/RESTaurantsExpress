@@ -1,27 +1,33 @@
+$("#resultsdiv").hide();
+
 var socket = io(':443',{secure: true});
 
 socket.on('placedetails', function(info){
+  $("#resultsdiv").show();
+  //Information
+  $('#placenamebig').text("We've Chosen "+info.result.name+"!");
   $('#placename').text("We've chosen "+info.result.name+" for you.");
   $('#placeaddress').text(info.result.name+" is located at "+info.result.vicinity);
+  //Reviews
+  let numOfReviews = 4;
+  //Instead of inserting text here could insert HTML for each review
+  for(let i=0; i<numOfReviews; i++){
+    $("#reviewer"+i+"Name").text(info.result.reviews[i].author_name);
+    $("#reviewer"+i+"Rating").text("Rating: "+info.result.reviews[i].rating+"/5");
+    if (info.result.reviews[i].text.length >= 1) {
+      $("#reviewer"+i+"Text").text("'"+info.result.reviews[i].text+"'");
+    }else{
+      $("#reviewer"+i+"Text").text("");
+    }
+  };
 });
 
 socket.on('placeimages', function(placeImageUrls){
-  let numOfImages = 3;
+  let numOfImages = placeImageUrls.length;
   //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
   for(let i=0; i<numOfImages; i++){
     $("#placeimage"+i).attr("src",placeImageUrls[i]);
   };
-});
-
-socket.on('placereviews', function(placeReviews){
-  let numOfReviews = 4;
-  //Instead of inserting text here could insert HTML for each review
-  for(let i=0; i<numOfReviews; i++){
-    $("#reviewer"+i+"Name").text("this is"+i);
-    $("#reviewer"+i+"Rating").text("this is"+i);
-    $("#reviewer"+i+"Text").text("this is"+i);
-  }
-
 });
 
 function getLocation() {
@@ -36,3 +42,5 @@ function showPosition(position) {
   var userCoords = position.coords.latitude + ', ' + position.coords.longitude
   socket.emit('usercoords', userCoords);
 }
+
+

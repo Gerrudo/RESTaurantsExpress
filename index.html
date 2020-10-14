@@ -33,10 +33,11 @@
         <h2 class="mt-5">Can't think pick where to eat? Don't worry, we'll do it for you.</h2>
         <button onclick="getLocation()">Go</button>
         <p>Please note, RESTaurants will ask for your location to search for results.</p>
+        <h2 id="placenamebig"></h2>
       </div>
     </div>
   </div>
-
+<div id="resultsdiv">
   <div class="container">
     <ul class="nav nav-pills">
       <li><a data-toggle="pill" href="#menu1">Information</a></li>
@@ -83,12 +84,13 @@
             <img id="placeimage1" src="" style="width:100%;">
             <img id="placeimage2" src="" style="width:100%;">  
     </div>
-    <div id="menu4" class="tab-pane fade">
-      <h3>Maps</h3>
-      <p>placeholder</p>
+      <div id="menu4" class="tab-pane fade">
+        <h3>Maps</h3>
+        <p>placeholder</p>
+      </div>
     </div>
   </div>
-
+</div>
   <!-- Bootstrap core JavaScript -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
