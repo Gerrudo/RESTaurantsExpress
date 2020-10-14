@@ -66,12 +66,13 @@ io.on('connection', function(socket){
       let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
       let placeDetailsObj = JSON.parse(placeDetailsJson);
 
-      //Constructing image URLs into an Object
-      let placeImageUrls = {
-        image: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placeDetailsObj.result.photos[0].photo_reference+'&key='+apiKey0,
-        image1: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placeDetailsObj.result.photos[1].photo_reference+'&key='+apiKey0,
-        image2: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference='+placeDetailsObj.result.photos[2].photo_reference+'&key='+apiKey0
-      };
+      //Constructing image URLs into an Array
+      let placeImageUrls = [
+        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[0].photo_reference+'&key='+apiKey0,
+        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[1].photo_reference+'&key='+apiKey0,
+        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[2].photo_reference+'&key='+apiKey0
+
+      ]
 
       //Here now emits JS Object, can parse through place info on the otherside.
       io.to(socket.id).emit('placedetails', placeDetailsObj);
