@@ -52,33 +52,33 @@ io.on('connection', function(socket){
     }
 
     async function postResults() {
-      
-      //Search by location
-      let getPlaceUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + userCoords + '&rankby=distance&keyword =food&type=restaurant';
-      let placesjson = await reusableRequest(getPlaceUrl,apiKey1);
-      let placesobj = JSON.parse(placesjson);
+      try{
+        //Search by location
+        let getPlaceUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + userCoords + '&rankby=distance&keyword =food&type=restaurant';
+        let placesjson = await reusableRequest(getPlaceUrl,apiKey1);
+        let placesobj = JSON.parse(placesjson);
 
-      //Choose Random place
-      let randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
+        //Choose Random place
+        let randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
 
-      //Get placeDetails
-      let getPlaceDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?place_id='+randomplace.place_id+'&key='+apiKey0;
-      let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
-      let placeDetailsObj = JSON.parse(placeDetailsJson);
-
-      //Constructing image URLs into an Array
-      let placeImageUrls = [
-        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[0].photo_reference+'&key='+apiKey0,
-        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[1].photo_reference+'&key='+apiKey0,
-        'https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[2].photo_reference+'&key='+apiKey0
-      ];
-
-      //Here now emits JS Object, can parse through place info on the otherside.
-      io.to(socket.id).emit('placedetails', placeDetailsObj);
-      io.to(socket.id).emit('placeimages', placeImageUrls);
-    }
-
+        //Get placeDetails
+        let getPlaceDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?place_id='+randomplace.place_id+'&key='+apiKey0;
+        let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
+        let placeDetailsObj = JSON.parse(placeDetailsJson);
+        let placeImageUrls = [];
+        //Constructing image URLs into an Array
+        //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
+        for(let i=0; i<placeDetailsObj.result.photos.length; i++){
+          placeImageUrls.push('https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[i].photo_reference+'&key='+apiKey0)
+        };
+        //Here now emits JS Object, can parse through place info on the otherside.
+        io.to(socket.id).emit('placedetails', placeDetailsObj);
+        io.to(socket.id).emit('placeimages', placeImageUrls);
+        
+      }catch(err){
+        console.error(err);
+      }
+    };
     postResults();
-
   });
 });
