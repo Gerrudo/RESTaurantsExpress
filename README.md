@@ -13,10 +13,24 @@ Goals/Requirments for this project:
 - [x] Use https and have it working with socket.io
 - [x] Display Images of place
 - [x] Have the page update with each request and keep information consistently displayed
-- [ ] Display Reviews
+- [X] Display Reviews
 - [x] Display Address
+- [ ] Display More information about the place
+- [ ] Have page dynamically display images and other data and handle if data is missing(eg, no images)
 - [ ] Display Google Maps marker for Address
 - [ ] Add loading screen while request is being run
 - [ ] Make the page not look like complete arse
 - [ ] Have a page for previous places, this will be global to start until we decide to use external auth login
 - [ ] Write more Requirments
+
+Bugs
+
+- [x] Request not being sent sometimes because of undefined photo_reference
+    Bug: Was due to array of image URLs being static, so would look for non existant photo_reference when building array.
+    Fix: array is now dynmaically created based on number of photo_references provided.
+- [ ] Error on ImageURLArray length being undefined
+    Bug: Sometimes array length for photo_references is 0, which is leading to .length being undefined.
+    Fix: Need to add in check if is 0/undefined and skip over and display message of 'No Images' to user.
+- [ ] Sometimes page unresponsive for a minute at a time when asked for request
+    Bug: Page displays no data after clicking go more than once, may be down to google api rate limit or websocket issue
+    Fix: Needs investigation.
