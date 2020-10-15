@@ -10,6 +10,7 @@ socket.on('placedetails', function(info){
   $('#placeaddress').text(info.result.name+" is located at "+info.result.vicinity);
   //Reviews
   let numOfReviews = 4;
+  $('#placeoverallrating').text("Overall Rating: "+info.result.rating);
   //Instead of inserting text here could insert HTML for each review
   for(let i=0; i<numOfReviews; i++){
     $("#reviewer"+i+"Name").text(info.result.reviews[i].author_name);

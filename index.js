@@ -4,8 +4,8 @@ const app = express();
 const https = require('https')
 const request = require('request');
 const port = process.env.PORT || 443;
-const key = fs.readFileSync(__dirname + '/certs/selfsigned.key');
-const cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt');
+const key = fs.readFileSync(__dirname + '/certs/privkey.pem');
+const cert = fs.readFileSync(__dirname + '/certs/cert.pem');
 const options = {
   key: key,
   cert: cert
