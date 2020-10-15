@@ -1,2 +1,4 @@
 requestVarFile.js
 resultsample.json
+certs/privkey.pem
+certs/cert.pem
