@@ -23,12 +23,13 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  console.log(`Socket ${socket.id} connected.`);
+  console.log(socket.id+' Connected');
   socket.on('disconnect', () => {
-    console.log(`Socket ${socket.id} disconnected.`);
+    console.log(socket.id+' Disconnected');
   });
 
   socket.on('usercoords', userCoords => {
+    console.log(socket.id+' Request Received')
     socket.join(socket.id);
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
@@ -54,29 +55,45 @@ io.on('connection', function(socket){
     async function postResults() {
       try{
         //Search by location
+        console.log(socket.id+' Getting Place Data...')
         let getPlaceUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + userCoords + '&rankby=distance&keyword =food&type=restaurant';
         let placesjson = await reusableRequest(getPlaceUrl,apiKey1);
         let placesobj = JSON.parse(placesjson);
-
+        
         //Choose Random place
         let randomplace = placesobj.results[ Math.floor(Math.random() * placesobj.results.length)];
+        let getPlaceDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?place_id='+randomplace.place_id+'&key='+apiKey0;
 
         //Get placeDetails
-        let getPlaceDetailsUrl = 'https://maps.googleapis.com/maps/api/place/details/json?place_id='+randomplace.place_id+'&key='+apiKey0;
+        console.log(socket.id+' Getting Image Data...')
         let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
         let placeDetailsObj = JSON.parse(placeDetailsJson);
         let placeImageUrls = [];
-        //Constructing image URLs into an Array
-        //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
-        for(let i=0; i<placeDetailsObj.result.photos.length; i++){
-          placeImageUrls.push('https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[i].photo_reference+'&key='+apiKey0)
-        };
-        //Here now emits JS Object, can parse through place info on the otherside.
-        io.to(socket.id).emit('placedetails', placeDetailsObj);
-        io.to(socket.id).emit('placeimages', placeImageUrls);
+        let hasImages = true;
+        //This prevents the application from erroring, if there are no images for the place, creates URL array if place has images.
+        if (placeDetailsObj.result.photos == undefined){
+          console.error(socket.id+'No Images for '+placeDetailsObj.result.name+'!')
+          let hasImages = false;
+        }else{
+          //Constructing image URLs into an Array
+          //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
+          for(let i=0; i<placeDetailsObj.result.photos.length; i++){
+            placeImageUrls.push('https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[i].photo_reference+'&key='+apiKey0)
+          }
+        }
         
+        //Here now emits JS Object, can parse through place info on the otherside.
+        console.log(socket.id+' Sending Data to Page')
+        io.to(socket.id).emit('placedetails', placeDetailsObj);
+        //If there are no images, the frontend will be sent 'noimages', this will make the page display accordingly and create no elements.
+        if (hasImages == true){
+          io.to(socket.id).emit('placeimages', placeImageUrls);
+        }else{
+          io.to(socket.id).emit('placeimages', 'noimage');
+        }
+        console.log(socket.id+' Data Sent')
       }catch(err){
-        console.error(err);
+        console.error(socket.id+' '+err);
       }
     };
     postResults();
