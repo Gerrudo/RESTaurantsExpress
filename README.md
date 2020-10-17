@@ -15,9 +15,9 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Have the page update with each request and keep information consistently displayed
 - [X] Display Reviews
 - [x] Display Address
-- [ ] Display More information about the place
+- [x] Display More information about the place
 - [x] Have page dynamically display images and other data
-- [ ] Display build/version number on page
+- [ ] Have opening hour array display properly
 - [x] Handle is page data is missing, eg, no images/reviews
 - [ ] Display Google Maps marker for Address
 - [x] Add loading screen while request is being run
@@ -32,7 +32,7 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Error on ImageURLArray length being undefined
     Bug: Sometimes array length for photo_references is 0, which is leading to .length being undefined.
     Fix: Need to add in check if is 0/undefined and skip over and display message of 'No Images' to user.
-- [ ] Sometimes page unresponsive for a minute at a time when asked for request
+- [x] Sometimes page unresponsive for a minute at a time when asked for request
     Bug: Page displays no data after clicking go more than once, may be down to google api rate limit or websocket issue
     Fix: Needs investigation.
 - [x] Photos not being replaced upon request

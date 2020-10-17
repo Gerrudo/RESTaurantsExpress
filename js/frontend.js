@@ -7,10 +7,13 @@ socket.on('placedetails', function(info){
   console.log('Data Received')
   $('#loading').hide();
   $("#resultsdiv").show();
+  $('#placedetailslist').html('');
   //Information
-  $('#placenamebig').text("We've Chosen "+info.result.name+"!");
-  $('#placename').text("We've chosen "+info.result.name+" for you.");
-  $('#placeaddress').text(info.result.name+" is located at "+info.result.vicinity);
+  $('#placedetailslist').append(`<li class="list-group-item">${info.result.name} is located at <p class="font-weight-bold">${info.result.formatted_address}</p></li>`);
+  $('#placedetailslist').append(`<li class="list-group-item">You can call ${info.result.name} on: <p class="font-weight-bold">${info.result.international_phone_number}</p></li>`);
+  $('#placedetailslist').append(`<li class="list-group-item">${info.result.name}'s Opening Hours are: <p class="font-weight-bold">${info.result.opening_hours.weekday_text}</p></li>`);
+  $('#placedetailslist').append(`<li class="list-group-item">You can visit ${info.result.name}'s website <a href="${info.result.website}">here</a>.</li>`);
+  $('#placedetailslist').append(`<li class="list-group-item">Click here to visit ${info.result.name} on <a href="${info.result.url}">Google Maps</a>.</li>`);
   //Reviews
   $('#menu2').html('');
   if(info.result.reviews == undefined){

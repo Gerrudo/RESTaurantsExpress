@@ -44,18 +44,20 @@
       </div>
     </div>
   </div>
+</div>
   <div id="resultsdiv" class="container">
     <h2 id="placenamebig"></h2>
     <ul class="nav nav-pills nav-fill">
-      <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#menu1">Information</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#menu1">Information</a></li>
       <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#menu2">Reviews</a></li>
       <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#menu3">Photos</a></li>
-      <li class="nav-item"><a class="nav-link disabled" data-toggle="pill" href="#menu4">Maps (Coming Soon)</a></li>
+      <li class="nav-item"><a class="nav-link disabled" href="menu4" tabindex="-1" aria-disabled="true">Maps (Coming Soon)</a></li>
     </ul>
     <br></br>
     <div class="tab-content">
       <div id="menu1" class="tab-pane fade">
-        <h4 id="placeaddress"></h4>
+        <ul id="placedetailslist" class="list-group">
+        </ul>
       </div>
       <div id="menu2" class="tab-pane fade">
       </div>
@@ -65,6 +67,14 @@
       </div>
     </div>
   </div>
+  <br></br>
+  <div class="text-center">
+    <p>Consider checking out the Repo for this project on Github.</p>
+    <div class="github-card" data-github="Gerrudo/RESTaurantsExpress" data-width="400" data-height="" data-theme="default"></div>
+    <script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+  </div>
+
+  
   <!-- Bootstrap core JavaScript -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
