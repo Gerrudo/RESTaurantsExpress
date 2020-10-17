@@ -94,6 +94,7 @@ io.on('connection', function(socket){
         console.log(socket.id+' Data Sent')
       }catch(err){
         console.error(socket.id+' '+err);
+        io.to(socket.id).emit('error', err.message);
       }
     };
     postResults();
