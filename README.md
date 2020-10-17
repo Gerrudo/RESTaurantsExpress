@@ -18,7 +18,7 @@ A web application that pulls place information from Google's Places API. Based o
 - [ ] Display More information about the place
 - [x] Have page dynamically display images and other data
 - [ ] Display build/version number on page
-- [ ] Handle is page data is missing, eg, no images/reviews
+- [x] Handle is page data is missing, eg, no images/reviews
 - [ ] Display Google Maps marker for Address
 - [x] Add loading screen while request is being run
 - [ ] Setup Mongo DB and have recent searches shown on the homepage

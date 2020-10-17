@@ -13,36 +13,43 @@ socket.on('placedetails', function(info){
   $('#placeaddress').text(info.result.name+" is located at "+info.result.vicinity);
   //Reviews
   $('#menu2').html('');
-  let numOfReviews = info.result.reviews.length;
-
-  for(let i=0; i<numOfReviews; i++){
-    $("#menu2").append(`
-      <div class="media">
-        <img src="${info.result.reviews[i].profile_photo_url}" class="mr-3">
-          <div class="media-body">
-          <h5 class="mt-0">${info.result.reviews[i].author_name}</h5>
-          ${info.result.reviews[i].text}
-          </div>
-      </div>
-      <br></br>
-    `);
-  };
+  if(info.result.reviews == undefined){
+    $('#menu2').append(`<p>No Reviews</p>`)
+  }else{
+    let numOfReviews = info.result.reviews.length;
+    for(let i=0; i<numOfReviews; i++){
+      $("#menu2").append(`
+        <div class="media">
+          <img src="${info.result.reviews[i].profile_photo_url}" class="mr-3">
+            <div class="media-body">
+            <h5 class="mt-0">${info.result.reviews[i].author_name}</h5>
+            ${info.result.reviews[i].text}
+            </div>
+        </div>
+        <br></br>
+      `);
+    };
+  }
 });
 
 socket.on('placeimages', function(placeImageUrls){
   $('#menu3').html('');
-  let numOfImages = placeImageUrls.length;
-  //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
-  for(let i=0; i<numOfImages; i++){
-    $('#menu3').append(`
-      <img class="img-thumbnail" id="placeimage${[i]}" src="${placeImageUrls[i]}" 
-        style="width:100%; 
-        object-fit: cover; 
-        width: 500px; 
-        height: 500px;
-        ">
-    `)
-  };
+  if (placeImageUrls.length == 0){
+    $('#menu3').append(`<p>No Images</p>`)
+  }else{
+    let numOfImages = placeImageUrls.length;
+    //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
+    for(let i=0; i<numOfImages; i++){
+      $('#menu3').append(`
+        <img class="img-thumbnail" id="placeimage${[i]}" src="${placeImageUrls[i]}" 
+          style="width:100%; 
+          object-fit: cover; 
+          width: 500px; 
+          height: 500px;
+          ">
+      `)
+    };
+  }
 });
 
 socket.on('error', function(err){
