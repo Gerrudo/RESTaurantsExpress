@@ -69,11 +69,9 @@ io.on('connection', function(socket){
         let placeDetailsJson = await reusableRequest(getPlaceDetailsUrl);
         let placeDetailsObj = JSON.parse(placeDetailsJson);
         let placeImageUrls = [];
-        let hasImages = true;
         //This prevents the application from erroring, if there are no images for the place, creates URL array if place has images.
         if (placeDetailsObj.result.photos == undefined){
-          console.error(socket.id+'No Images for '+placeDetailsObj.result.name+'!')
-          let hasImages = false;
+          console.error(socket.id+' No Images for '+placeDetailsObj.result.name+'!')
         }else{
           //Constructing image URLs into an Array
           //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
@@ -86,11 +84,7 @@ io.on('connection', function(socket){
         console.log(socket.id+' Sending Data to Page')
         io.to(socket.id).emit('placedetails', placeDetailsObj);
         //If there are no images, the frontend will be sent 'noimages', this will make the page display accordingly and create no elements.
-        if (hasImages == true){
-          io.to(socket.id).emit('placeimages', placeImageUrls);
-        }else{
-          io.to(socket.id).emit('placeimages', 'noimage');
-        }
+        io.to(socket.id).emit('placeimages', placeImageUrls);
         console.log(socket.id+' Data Sent')
       }catch(err){
         console.error(socket.id+' '+err);
