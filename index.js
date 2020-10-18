@@ -70,15 +70,14 @@ io.on('connection', function(socket){
         let placeDetailsObj = JSON.parse(placeDetailsJson);
         let placeImageUrls = [];
         //This prevents the application from erroring, if there are no images for the place, creates URL array if place has images.
-        if (placeDetailsObj.result.photos == undefined){
-          console.error(socket.id+' No Images for '+placeDetailsObj.result.name+'!')
-        }else{
+        if (placeDetailsObj.result.photos !== undefined){
           //Constructing image URLs into an Array
           //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
           for(let i=0; i<placeDetailsObj.result.photos.length; i++){
             placeImageUrls.push('https://maps.googleapis.com/maps/api/place/photo?maxwidth=2000&photoreference='+placeDetailsObj.result.photos[i].photo_reference+'&key='+apiKey0)
           }
-        }
+        }   
+         
         
         //Here now emits JS Object, can parse through place info on the otherside.
         console.log(socket.id+' Sending Data to Page')

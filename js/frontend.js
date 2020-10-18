@@ -8,13 +8,41 @@ socket.on('placedetails', function(info){
   $('#loading').hide();
   $("#resultsdiv").show();
   $('#placedetailslist').html('');
+  
+  function checkDataForUndef(dataToCheck){
+    if (dataToCheck === undefined){
+      let isDataUndef = true;
+      return isDataUndef
+    }else{
+      let isDataUndef = false;
+      return isDataUndef
+    }
+  }
+
   //Information
-  $('#placedetailslist').append(`<li class="list-group-item">${info.result.name} is located at <p class="font-weight-bold">${info.result.formatted_address}</p></li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">You can call ${info.result.name} on: <p class="font-weight-bold">${info.result.international_phone_number}</p></li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">${info.result.name}'s Opening Hours are: <p class="font-weight-bold">${info.result.opening_hours.weekday_text}</p></li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">You can visit ${info.result.name}'s website <a href="${info.result.website}">here</a>.</li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">Click here to visit ${info.result.name} on <a href="${info.result.url}">Google Maps</a>.</li>`);
-  //Reviews
+  let placeDetailsArray = [
+    info.result.name,
+    info.result.formatted_address,
+    info.result.international_phone_number,
+    info.result.website,
+    info.result.url
+  ]
+  //.weekday_text way broken out into it's own try catch as was causing placeDetailsArray not to be constructed, as sometimes opening_hours is undefined.
+  try{
+    placeDetailsArray.push(info.result.opening_hours.weekday_text)
+  }catch(error){
+    placeDetailsArray.push(undefined)
+  }
+
+  for (let i=0; i<placeDetailsArray.length; i++){
+    let isDataUndef = checkDataForUndef(placeDetailsArray[i]);
+    if (isDataUndef === false){
+      $('#placedetailslist').append(`<li class="list-group-item">${placeDetailsArray[i]}</li>`);
+    }else{
+      $('#placedetailslist').append(`<li class="list-group-item">No Data</li>`);
+    }
+  }
+
   $('#menu2').html('');
   if(info.result.reviews == undefined){
     $('#menu2').append(`<p>No Reviews</p>`)
@@ -41,7 +69,7 @@ socket.on('placeimages', function(placeImageUrls){
     $('#menu3').append(`<p>No Images</p>`)
   }else{
     let numOfImages = placeImageUrls.length;
-    //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
+    //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later commits
     for(let i=0; i<numOfImages; i++){
       $('#menu3').append(`
         <img class="img-thumbnail" id="placeimage${[i]}" src="${placeImageUrls[i]}" 
