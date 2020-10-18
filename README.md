@@ -41,3 +41,6 @@ A web application that pulls place information from Google's Places API. Based o
 - [ ] showPosition(position) Sometimes not being triggged (Google Chrome)
     Bug: In google chrome, the go button will bring back no results as the showPosition(position) function is not being run from after requesting the user coordinates.
     Fix: Needs investigation.
+- [ ] Photos page only showing one photo on request
+    Bug: In the photos tabs, there is now only one image being displayed up on request.
+    Fix: Needs investigation.
