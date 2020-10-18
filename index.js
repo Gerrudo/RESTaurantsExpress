@@ -78,12 +78,15 @@ io.on('connection', function(socket){
           }
         }   
          
-        
+        //Get PlaceMaps Details
+        placeMapsUrl = `https://www.google.com/maps/embed/v1/place?key=${apiKey0}&q=place_id:${placeDetailsObj.result.place_id}`
+
         //Here now emits JS Object, can parse through place info on the otherside.
         console.log(socket.id+' Sending Data to Page')
         io.to(socket.id).emit('placedetails', placeDetailsObj);
         //If there are no images, the frontend will be sent 'noimages', this will make the page display accordingly and create no elements.
         io.to(socket.id).emit('placeimages', placeImageUrls);
+        io.to(socket.id).emit('placemaps', placeMapsUrl);
         console.log(socket.id+' Data Sent')
       }catch(err){
         console.error(socket.id+' '+err);

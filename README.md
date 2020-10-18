@@ -17,10 +17,10 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Display Address
 - [x] Display More information about the place
 - [x] Have page dynamically display images and other data
-- [ ] Have opening hour array display properly
+- [x] Have opening hour array display properly
 - [x] Handle is page data is missing, eg, no images/reviews
-- [ ] Display Google Maps marker for Address
 - [x] Add loading screen while request is being run
+- [ ] Display Google Maps marker for Address
 - [ ] Setup Mongo DB and have recent searches shown on the homepage
 - [ ] Write more Requirments
 
