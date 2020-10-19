@@ -54,3 +54,6 @@ A web application that pulls place information from Google's Places API. Based o
 - [ ] Sometimes if reviews = undefined, no results text is not displayed
     Bug: When there are no results, text saying 'No Reviews' is not being displayed.
     Fix: Evaluate and test undefined check on reviews object.
+- [ ] (High Priority) Maps Embed API and Places Photos API broken outside of my network
+    Bug: APIs mentioned do not work outside of my IP. 
+    Fix: Need to have these requests made by the server somehow using HTTP referals so can keep the keys locked but still usable by the client.
