@@ -21,6 +21,7 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Handle is page data is missing, eg, no images/reviews
 - [x] Add loading screen while request is being run
 - [x] Display Google Maps marker for Address
+- [ ] Add Dismiss button to error message
 - [ ] Add filter options for search: e.g type, open_now, radius
 - [ ] Format code including variables and consolidate any functions to make code look cleaner
 - [ ] Format jQuery UI functions like .hide and .show to make them easier to see and control (This step maybe skipped in favour of using a new framework)
