@@ -21,7 +21,9 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Handle is page data is missing, eg, no images/reviews
 - [x] Add loading screen while request is being run
 - [ ] Display Google Maps marker for Address
+- [ ] Rework the front end of the appliction using a framework: e.g Angular
 - [ ] Setup Mongo DB and have recent searches shown on the homepage
+- [ ] Add filter options for search: e.g type, open_now, radius
 - [ ] Write more Requirments
 
 ## Bugs
