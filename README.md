@@ -46,3 +46,6 @@ A web application that pulls place information from Google's Places API. Based o
 - [ ] Photos page only showing one photo on request
     Bug: In the photos tabs, there is now only one image being displayed up on request.
     Fix: Needs investigation.
+- [ ] Sometimes if reviews = undefined, no results text is not displayed
+    Bug: When there are no results, text saying 'No Reviews' is not being displayed.
+    Fix: Evaluate and test undefined check on reviews object.
