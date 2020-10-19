@@ -7,16 +7,54 @@ socket.on('placedetails', function(info){
   console.log('Data Received')
   $('#loading').hide();
   $("#resultsdiv").show();
-  $('#placedetailslist').html('');
+  
+  function checkDataForUndef(dataToCheck){
+    if (dataToCheck === undefined){
+      let isDataUndef = true;
+      return isDataUndef
+    }else{
+      let isDataUndef = false;
+      return isDataUndef
+    }
+  }
+
   //Information
-  $('#placedetailslist').append(`<li class="list-group-item">${info.result.name} is located at <p class="font-weight-bold">${info.result.formatted_address}</p></li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">You can call ${info.result.name} on: <p class="font-weight-bold">${info.result.international_phone_number}</p></li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">${info.result.name}'s Opening Hours are: <p class="font-weight-bold">${info.result.opening_hours.weekday_text}</p></li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">You can visit ${info.result.name}'s website <a href="${info.result.website}">here</a>.</li>`);
-  $('#placedetailslist').append(`<li class="list-group-item">Click here to visit ${info.result.name} on <a href="${info.result.url}">Google Maps</a>.</li>`);
+  $('#placenamebig').html(`${info.result.name}<small> - Please select a tab for more information.</small>`);
+
+  let placeDetailsArray = [
+    info.result.formatted_address,
+    info.result.international_phone_number,
+    info.result.website,
+  ]
+
+  for (let i=0; i<placeDetailsArray.length; i++){
+    let isDataUndef = checkDataForUndef(placeDetailsArray[i]);
+    if (isDataUndef === false){
+      $(`#placedetailslist${i}`).text(`${placeDetailsArray[i]}`);
+    }else{
+      $(`#placedetailslist${i}`).text(`No Data`);
+    }
+  }
+  $('#openinghours').empty();
+  try{
+    let isDataUndef = checkDataForUndef(info.result.opening_hours.weekday_text);
+    if(isDataUndef === false){
+      for(let i=0; i<info.result.opening_hours.weekday_text.length; i++){
+        $(`#openinghours`).append(`<li class="list-group-item">${info.result.opening_hours.weekday_text[i]}</li>`)}
+    }
+    }catch(error){
+      $(`#openinghours`).append(`<li class="list-group-item">No Data</li>`);
+  }
+  
+  if(info.result.website !== undefined){
+    $('#placedetailslist2').attr("href", info.result.website)
+  }else{
+    $('#placedetailslist2').removeAttr("href")
+  }
+
   //Reviews
-  $('#menu2').html('');
-  if(info.result.reviews == undefined){
+  $('#menu2').empty();
+  if(info.result.reviews == undefined || info.result.reviews.length == 0){
     $('#menu2').append(`<p>No Reviews</p>`)
   }else{
     let numOfReviews = info.result.reviews.length;
@@ -35,13 +73,14 @@ socket.on('placedetails', function(info){
   }
 });
 
+//Photos
 socket.on('placeimages', function(placeImageUrls){
   $('#menu3').html('');
   if (placeImageUrls.length == 0){
     $('#menu3').append(`<p>No Images</p>`)
   }else{
     let numOfImages = placeImageUrls.length;
-    //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later 
+    //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later commits
     for(let i=0; i<numOfImages; i++){
       $('#menu3').append(`
         <img class="img-thumbnail" id="placeimage${[i]}" src="${placeImageUrls[i]}" 
@@ -54,6 +93,20 @@ socket.on('placeimages', function(placeImageUrls){
     };
   }
 });
+
+//Google Maps
+socket.on('placemaps', function(placeMapsUrl){
+ $('#mapsembed').html(`
+  <iframe
+    width="600"
+    height="450"
+    frameborder="0" style="border:0"
+    src="${placeMapsUrl}" 
+    allowfullscreen>
+  </iframe>
+ `);
+});
+
 
 socket.on('error', function(err){
   $('#loading').hide();
