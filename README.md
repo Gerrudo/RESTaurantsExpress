@@ -20,10 +20,12 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Have opening hour array display properly
 - [x] Handle is page data is missing, eg, no images/reviews
 - [x] Add loading screen while request is being run
-- [ ] Display Google Maps marker for Address
-- [ ] Rework the front end of the appliction using a framework: e.g Angular
-- [ ] Setup Mongo DB and have recent searches shown on the homepage
+- [x] Display Google Maps marker for Address
 - [ ] Add filter options for search: e.g type, open_now, radius
+- [ ] Format code including variables and consolidate any functions to make code look cleaner
+- [ ] Format jQuery UI functions like .hide and .show to make them easier to see and control (This step maybe skipped in favour of using a new framework)
+- [ ] Setup Mongo DB and have recent searches shown on the homepage
+- [ ] Rework the front end of the appliction using a framework: e.g Angular
 - [ ] Write more Requirments
 
 ## Bugs
@@ -40,12 +42,15 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Photos not being replaced upon request
     Bug: Images do not update dynamically, they are static some images sometimes do not get replaced or removed on new request.
     Fix: Have images removed on new request, or have them dynamically created and removed.
+- [x] Google Maps Embed showing key is not authorised
+    Bug: When using Google Maps Embed API, it is showing that there key is not authorised for that API.
+    Fix: apiKey0 was showing as apiKey1, which was no longer in use.
 - [ ] showPosition(position) Sometimes not being triggged (Google Chrome)
     Bug: In google chrome, the go button will bring back no results as the showPosition(position) function is not being run from after requesting the user coordinates.
     Fix: Needs investigation.
-- [ ] Photos page only showing one photo on request
+- [x] Photos page only showing one photo on request
     Bug: In the photos tabs, there is now only one image being displayed up on request.
-    Fix: Needs investigation.
+    Fix: Was due to element uing .html instead of .append to add more elements recursively.
 - [ ] Sometimes if reviews = undefined, no results text is not displayed
     Bug: When there are no results, text saying 'No Reviews' is not being displayed.
     Fix: Evaluate and test undefined check on reviews object.

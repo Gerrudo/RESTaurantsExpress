@@ -33,9 +33,8 @@ io.on('connection', function(socket){
     socket.join(socket.id);
     //apiKey should be broken out into another file called requestVarFile.js
     const apiKey0 = require('./requestVarFile.js')
-    const apiKey1 = require('./requestVarFile.js')
 
-    function reusableRequest(url, headers){
+    function reusableRequest(url){
       let options = {
         'method': 'GET',
         'url': url,
@@ -57,7 +56,7 @@ io.on('connection', function(socket){
         //Search by location
         console.log(socket.id+' Getting Place Data...')
         let getPlaceUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=' + apiKey0 + '&location=' + userCoords + '&rankby=distance&keyword =food&type=restaurant';
-        let placesjson = await reusableRequest(getPlaceUrl,apiKey1);
+        let placesjson = await reusableRequest(getPlaceUrl);
         let placesobj = JSON.parse(placesjson);
         
         //Choose Random place

@@ -26,7 +26,6 @@ socket.on('placedetails', function(info){
     info.result.international_phone_number,
     info.result.website,
   ]
-  //.weekday_text way broken out into it's own try catch as was causing placeDetailsArray not to be constructed, as sometimes opening_hours is undefined.
 
   for (let i=0; i<placeDetailsArray.length; i++){
     let isDataUndef = checkDataForUndef(placeDetailsArray[i]);
@@ -46,10 +45,16 @@ socket.on('placedetails', function(info){
     }catch(error){
       $(`#openinghours`).append(`<li class="list-group-item">No Data</li>`);
   }
+  
+  if(info.result.website !== undefined){
+    $('#placedetailslist2').attr("href", info.result.website)
+  }else{
+    $('#placedetailslist2').removeAttr("href")
+  }
 
   //Reviews
   $('#menu2').empty();
-  if(info.result.reviews == undefined){
+  if(info.result.reviews == undefined || info.result.reviews.length == 0){
     $('#menu2').append(`<p>No Reviews</p>`)
   }else{
     let numOfReviews = info.result.reviews.length;
@@ -77,7 +82,7 @@ socket.on('placeimages', function(placeImageUrls){
     let numOfImages = placeImageUrls.length;
     //API key is readable in this URL, but is NOT usable by anyone outside my network, will address in later commits
     for(let i=0; i<numOfImages; i++){
-      $('#menu3').html(`
+      $('#menu3').append(`
         <img class="img-thumbnail" id="placeimage${[i]}" src="${placeImageUrls[i]}" 
           style="width:100%; 
           object-fit: cover; 
@@ -91,8 +96,7 @@ socket.on('placeimages', function(placeImageUrls){
 
 //Google Maps
 socket.on('placemaps', function(placeMapsUrl){
- $('#menu4').empty();
- $('#menu4').html(`
+ $('#mapsembed').html(`
   <iframe
     width="600"
     height="450"
