@@ -22,19 +22,25 @@ A web application that pulls place information from Google's Places API. Based o
 - [x] Add loading screen while request is being run
 - [x] Display Google Maps marker for Address
 - [ ] Add Dismiss button to error message
+- [ ] Update sockets so they open and close when needed
 - [ ] Add filter options for search: e.g type, open_now, radius
 - [ ] Format code including variables and consolidate any functions to make code look cleaner
 - [ ] Format jQuery UI functions like .hide and .show to make them easier to see and control (This step maybe skipped in favour of using a new framework)
 - [ ] Setup Mongo DB and have recent searches shown on the homepage
-- [ ] Rework the front end of the appliction using a framework: e.g Angular
+- [ ] Rework the front end of the appliction using a framework: e.g Angular/React
 - [ ] Write more Requirments
 
 ## React Requirements
 
+- [ ] Make sure create-react-app has worked (We may need to flatten everything and start again)
+- [ ] Make sure directories for react match what's in express
 - [ ] Covert current or commonly used HTML elements/sets of elements into JSX e.g const titleElement = ...
 - [ ] Have data pulled from each socket into the elements using JSX
 - [ ] Build if and for loops into element consts using JSX
-- [ ] 
+- [ ] Look at moving react elements to the backend for things like api requests (This is so we can keep keys and other credentials secure)
+- [ ] Create reaction functions for each UI update section e.g Information/Reviews/Photos
+- [ ] Split out subsets of functions so they can be used elsewhere e.g ReviewerPhoto
+- [ ] Create any button clicks or event using JSX syntax
 
 ## Bugs
 

@@ -18,8 +18,9 @@ server.listen(port, function(){
 });
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-  app.use("/js", express.static(__dirname + "/js"));
+  res.sendFile(__dirname + '/restaurantsexpress-react-app/index.html');
+  app.use("/client", express.static(__dirname + "/client"));
+  app.use("/src", express.static(__dirname + "/src"));
 });
 
 io.on('connection', function(socket){

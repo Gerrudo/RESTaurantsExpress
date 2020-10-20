@@ -1,7 +1,7 @@
 {
   "name": "restaurantsexpress",
   "version": "1.0.0",
-  "description": "",
+  "description": "A web application that pulls place information from Google's Places API. Based on the request the application picks a random place to provide to the user.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,9 +9,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "express": "^4.17.1",
     "http": "0.0.0",
     "request": "^2.88.2",
     "socket.io": "^2.3.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gerrudo/RESTaurantsExpress.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Gerrudo/RESTaurantsExpress/issues"
+  },
+  "homepage": "https://github.com/Gerrudo/RESTaurantsExpress#readme"
 }
