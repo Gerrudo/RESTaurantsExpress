@@ -29,6 +29,13 @@ A web application that pulls place information from Google's Places API. Based o
 - [ ] Rework the front end of the appliction using a framework: e.g Angular
 - [ ] Write more Requirments
 
+## React Requirements
+
+- [ ] Covert current or commonly used HTML elements/sets of elements into JSX e.g const titleElement = ...
+- [ ] Have data pulled from each socket into the elements using JSX
+- [ ] Build if and for loops into element consts using JSX
+- [ ] 
+
 ## Bugs
 
 - [x] Request not being sent sometimes because of undefined photo_reference
