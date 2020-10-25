@@ -1,4 +1,7 @@
+### This is a legacy code. Please see here for the updated frontend: https://github.com/Gerrudo/RESTaurants-React-WebApp
+
 # RESTaurantsExpress
+
 ## Express Web Server for the RESTaurants Application
 
 A web application that pulls place information from Google's Places API. Based on the request the application picks a random place to provide to the user.
