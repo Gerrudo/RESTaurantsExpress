@@ -1,4 +1,4 @@
-### This is a legacy code. Please see here for the updated frontend: https://github.com/Gerrudo/RESTaurants-React-WebApp
+### This is legacy code. Please see here for the updated frontend: https://github.com/Gerrudo/RESTaurants-React-WebApp
 
 # RESTaurantsExpress
 
